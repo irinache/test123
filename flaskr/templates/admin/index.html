@@ -1,0 +1,33 @@
+{% extends "admin/admin_base.html" %}
+
+{% block content %}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/tabulator-master/dist/js/tabulator.min.js') }}"></script>
+<div id="example-table"></div>
+<script>
+    
+var tabledata = [
+        {id:1, name_en:"First"},
+        {id:2, name_en:"Second"},
+    ]
+//    $(function() {
+//        $.getJSON("/_menu", {}, function(data) {});
+//    }
+var table = new Tabulator("#example-table", {
+    data:tabledata,
+    layout:"fitColumns",
+    responsiveLayout:"hide",
+    tooltips:true,
+    addRowPos:"top",
+    history:true,
+    pagination:"local",
+    paginationSize: 7,
+    movableColumns: true,
+     movableRows: true,
+    resizableRows: true,
+    columns: [ 
+        {title:"Title", field:"name_en", editor:"input"},
+    ],
+});
+
+</script>
+{% endblock %}

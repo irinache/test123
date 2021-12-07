@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %} 
+    {% if lang == "en" %}
+    Menu - Home
+    {% elif lang == "uk" %}
+    Меню - Головна
+    {% else %}
+    Меню - Главная
+    {% endif %}
+{% endblock %}
+{% block content %}
+<section>
+    <div class="content">
+        <div class="categories">
+            {% for category in categories %}
+            <a href="/category/{{category.id}}/{{lang}}" class="category">
+                <img src="{{ url_for('static', filename=theme_path~category.image) }}" alt="">
+                {% if lang == "en" %}
+                <h2>{{category.name_en }}</h2>
+                {% elif lang == "uk" %}
+                <h2>{{ category.name_uk }}</h2>
+                {% else %}
+                <h2>{{ category.name_ru }}</h2>
+                {% endif %}
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

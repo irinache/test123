@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %} 
+    {% if lang == "en" %}
+    Menu - {{ category.name_en }}
+    {% elif lang == "uk" %}
+    Меню - {{ category.name_uk }}
+    {% else %}
+    Меню - {{ category.name_ru }}
+    {% endif %}
+{% endblock %}
+{% block content %}
+<section>
+    <div class="content">
+        <div class="breadcrumbs">
+    {% if lang == "en" %}
+    <a href="/{{lang}}">Home</a><span class="arrow-icon"></span> {{category.name_en}}
+    {% elif lang == "uk" %}
+    <a href="/{{lang}}">Головна</a><span class="arrow-icon"></span> {{category.name_uk}}
+    {% else %}
+    <a href="/{{lang}}">Главная</a><span class="arrow-icon"></span> {{category.name_ru}}
+    {% endif %}
+        </div>
+        {% if lang == "en" %}
+        <h1>{{category.name_en}}</h1>
+        {% elif lang == "uk" %}
+        <h1>{{category.name_uk}}</h1>
+        {% else %}
+        <h1>{{category.name_ru}}</h1>
+        {% endif %}
+        <div class="menu-items">
+            {% for dish in dishes %}
+            <div class="menu-item">
+                {% if lang == "en" %}
+                <p>{{dish.title_en}}</p>
+                {% elif lang == "uk" %}
+                <p>{{dish.title_uk}}</p>
+                {% else %}
+                <p>{{dish.title_ru}}</p>
+                {% endif %}
+                <p>{{dish.price}} грн</p>
+            </div>
+            {% endfor %}
+
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends "admin/admin_base.html" %}
+
+{% block content %}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/tabulator-master/dist/js/tabulator.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+<div>
+<button id="savebtn">Сохранить</button>
+<button id="addrow">Добавить</button>
+</div>
+<div id="example-table"></div>
+<div id="imagepicker">
+{% for img in images %}
+  <div class="card" image="{{img.image}}">
+    <img src="{{ url_for('static', filename=theme_path~img.image }}">
+    {{ img.title }}
+  </div>
+{% endfor %}
+</div>
+<script>
+    var table;
+    var catImage = function(cell, formatterParams, onRendered){
+//        alert(value.getValue());
+        return "<img class='infoImage' src='"+cell.getValue()+"'>";
+    };
+    function read_data() {
+        $.getJSON("/admin/_categories", {}, function(data) {
+            table = new Tabulator("#example-table", {
+                data:data,
+                layout:"fitColumns",
+                responsiveLayout:"hide",
+                tooltips:true,
+                addRowPos:"top",
+                history:true,
+                pagination:"local",
+                paginationSize: 7,
+                movableColumns: true,
+                 movableRows: true,
+                resizableRows: true,
+                columns: [
+                   {formatter:"buttonCross", width:30, align:"center", cellClick:function(e, cell){
+                       if(confirm('Удалить?'))
+                           cell.getRow().delete();
+                    }},
+                    {title:"ID", field:"id", visible:false},
+                    {title:"title", field:"name_en", editor:"input"},
+                    {title:"назва", field:"name_uk", editor:"input"},
+                    {title:"название", field:"name_ru", editor:"input"},
+                    {title:"image", field:"image_url", formatter:catImage},
+                ],
+            });
+
+        });
+    }
+
+    $(document).ready(function() {
+        read_data();
+        $('#addrow').click(function() {
+            if (table != undefined) {
+                table.addRow();
+            }
+        });
+        $('#savebtn').click(function() {
+//            if (table != undefined) {
+//                $.ajax(ulr: "/admin/_categories",
+//                       type : 'POST',
+//                       data: { 'data': table.getData() },
+//                       success:  function() {
+//                            alert("OK");
+//                });
+//            }
+        });
+    });
+</script>
+{% endblock %}
